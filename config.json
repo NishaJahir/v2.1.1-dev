@@ -642,9 +642,9 @@
             "novalnet_instalment_invoice_min_amount":{  
                "type":"inputText",
                "required":false,
-               "label":"Config.minAmountLabel",
+               "label":"Config.instalmentMinAmountLabel",
                "options":{  
-                  "tooltip":"Config.minAmountTooltip",
+                  "tooltip":"Config.instalmentMinAmountTooltip",
                   "defaultValue":""
                }
             },
@@ -836,9 +836,9 @@
             "novalnet_instalment_sepa_min_amount":{  
                "type":"inputText",
                "required":false,
-               "label":"Config.minAmountLabel",
+               "label":"Config.instalmentMinAmountLabel",
                "options":{  
-                  "tooltip":"Config.minAmountTooltip",
+                  "tooltip":"Config.instalmentMinAmountTooltip",
                   "defaultValue":""
                }
             },
