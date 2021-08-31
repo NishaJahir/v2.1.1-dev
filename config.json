@@ -710,7 +710,7 @@
                      {
                         "value":"21",
                         "caption":"Config.instalmentCycle21"
-                     }
+                     },
                      {
                         "value":"24",
                         "caption":"Config.instalmentCycle24"
@@ -904,7 +904,7 @@
                      {
                         "value":"21",
                         "caption":"Config.instalmentCycle21"
-                     }
+                     },
                      {
                         "value":"24",
                         "caption":"Config.instalmentCycle24"
