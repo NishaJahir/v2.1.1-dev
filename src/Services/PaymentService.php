@@ -723,7 +723,9 @@ class PaymentService
 
             $shippingAddressId = $basket->customerShippingAddressId;
 
-            $addressValidation = false;
+            $addressValidation = $isPaymentSupportedCountry = false;
+	    $isInstalementCycleValid = true;
+		
             if(!empty($shippingAddressId))
             {
                 $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
@@ -748,7 +750,8 @@ class PaymentService
                  $addressValidation = true;
              }
              
-             $isInstalementCycleValid = true;
+             
+	     
              // Check these special conditions to instalment payments only
             if(strpos($paymentKey, 'instalment')) {
                 
