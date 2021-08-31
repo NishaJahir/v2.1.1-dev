@@ -785,7 +785,7 @@ class PaymentService
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_currency_error');                  
                 } elseif ( ! empty( array_diff( $billingAddress, $shippingAddress ) ) ) {
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_address_error');                   
-                } elseif ( (int) $amount < (int) $minimumAmount ) {
+                } elseif ( (int) $orderAmount < (int) $minimumAmount ) {
                     $processingType = $this->paymentHelper->getTranslatedText('guarantee_minimum_amount_error'). ' ' . $minimumAmount/100 . ' ' . 'EUR)';                   
                 }
             }
@@ -796,6 +796,30 @@ class PaymentService
         }
     }
     
+       /**
+    * Check if the customer from EU country or not
+    *
+    * @param string $paymentKey
+    * @param string $countryCode
+    * 
+    * @return bool
+    */
+    public function getEuropeanRegionCountryCodes($paymentKey, $countryCode) 
+    {
+        $allowb2bCustomer = $this->config->get('Novalnet.' . $paymentKey . '_allow_b2b_customer');
+        $europeanRegionCountryCodes =  [
+            'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR',
+            'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL',
+            'PT', 'RO', 'SE', 'SI', 'SK', 'UK', 'CH'
+        ];
+        
+        $countryValidation = false;
+        if($allowb2bCustomer == 'true' && in_array($countryCode, $europeanRegionCountryCodes)) {
+            $countryValidation = true;
+        }
+        return $countryValidation;
+    }
+	
     /**
      * Execute capture and void process
      *
