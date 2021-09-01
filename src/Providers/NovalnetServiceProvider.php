@@ -305,7 +305,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     ]);
                                 }
                           } elseif(in_array($paymentKey, ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
-                                
+                                $this->getLogger(__METHOD__)->error('cycle detail', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles')));
                                 $content = $twig->render('Novalnet::PaymentForm.NOVALNET_INSTALMENT', [
                                                                     'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
                                                                     'paymentMopKey'     =>  $paymentKey,
