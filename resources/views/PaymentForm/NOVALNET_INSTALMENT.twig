@@ -74,7 +74,7 @@
                     
                     <div class="col-sm-12">
                        <div class="input-unit">
-                        <select id="nn_insalment_cycle" type="text" name="nn_insalment_cycle" class="custom-select">
+                        <select id="nn_instalment_cycle" type="text" name="nn_instalment_cycle" class="custom-select">
                             {% for instalmentCycle in instalmentCycles %}
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round %}
                             {% if instalmentCycleAmount > 999 %}
