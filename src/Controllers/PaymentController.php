@@ -195,7 +195,7 @@ class PaymentController extends Controller
         else if( in_array( $requestData['paymentKey'], $guarantee_payments ) ) 
         {   
             // Mandatory Params For Novalnet SEPA
-            if ( in_array($requestData['paymentKey'],['NOVALNET_SEPA', 'NOVALNET_INSTALMENT_SEPA'] ) {
+            if ( in_array($requestData['paymentKey'],['NOVALNET_SEPA', 'NOVALNET_INSTALMENT_SEPA'] ) ) {
                     $serverRequestData['data']['bank_account_holder'] = $requestData['nn_sepa_cardholder'];
                     $serverRequestData['data']['iban'] = $requestData['nn_sepa_iban'];                  
             }            
@@ -220,10 +220,10 @@ class PaymentController extends Controller
                         $serverRequestData['data']['key']          = '40';
                         $serverRequestData['data']['birth_date']   =  $birthday;
                     } elseif(strpos('INSTALMENT', $requestData['paymentKey'])) {
-                        $serverRequestData['data']['payment_type'] = $requestData['paymentKey'] ? 'NOVALNET_INSTALMENT_INVOICE' ? 'INSTALMENT_INVOICE' : 'INSTALMENT_DIRECT_DEBIT_SEPA';
-                        $serverRequestData['data']['key']          = $requestData['paymentKey'] ? 'NOVALNET_INSTALMENT_INVOICE' ? '96' : '97';
-                        $serverRequestData['data']['instalment_cycles'] = $requestData['nn_instalment_cycle'],
-                        $serverRequestData['data']['instalment_period'] =  '1m',
+                        $serverRequestData['data']['payment_type'] = $requestData['paymentKey'] == 'NOVALNET_INSTALMENT_INVOICE' ? 'INSTALMENT_INVOICE' : 'INSTALMENT_DIRECT_DEBIT_SEPA';
+                        $serverRequestData['data']['key']          = $requestData['paymentKey'] == 'NOVALNET_INSTALMENT_INVOICE' ? '96' : '97';
+                        $serverRequestData['data']['instalment_cycles'] = $requestData['nn_instalment_cycle'];
+                        $serverRequestData['data']['instalment_period'] =  '1m';
                         $serverRequestData['data']['birth_date']   =  $birthday;
                         
                     } else {                        
