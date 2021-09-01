@@ -74,7 +74,6 @@
                        <div class="input-unit">
                         <select id="nn_insalment_cycle" type="text" name="nn_insalment_cycle" class="custom-select">
                             {% for instalmentCycle in instalmentCycles %}
-                            <input type="hidde" name="nn_cycle" value="{{instalmentCycle}}">
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round %}
                             {% if instalmentCycleAmount > 999 %}
                                 <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{orderCurrency}} {{instalmentCycleAmount / 100 | number_format(2, '.', ',') }} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
