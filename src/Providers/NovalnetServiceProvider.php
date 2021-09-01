@@ -313,7 +313,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
                                                                     'orderAmount' => $paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount),
                                                                     'orderCurrency' => $basket->currency,
-                                                                    'showDob' => empty($address->companyName) ? true : false;
+                                                                    'showDob' => empty($address->companyName) ? true : false,
                                                                     'instalmentCycles' => trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles'))
                                                                     ]);
                                $contentType = 'htmlContent';
