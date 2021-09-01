@@ -26,6 +26,7 @@ use Novalnet\Services\PaymentService;
 use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository; 
 use Novalnet\Services\TransactionService;
+use Plenty\Plugin\Log\Loggable;
 
 /**
  * Class PaymentController
@@ -34,6 +35,7 @@ use Novalnet\Services\TransactionService;
  */
 class PaymentController extends Controller
 {
+    use Loggable;
     /**
      * @var Request
      */
@@ -176,7 +178,7 @@ class PaymentController extends Controller
                 return $this->response->redirectTo('checkout');
         }
         
-        $guarantee_payments = [ 'NOVALNET_SEPA', 'NOVALNET_INVOICE' ];        
+        $guarantee_payments = [ 'NOVALNET_SEPA', 'NOVALNET_INVOICE', 'NOVALNET_INSTALMENT_INVOICE',  'NOVALNET_INSTALMENT_SEPA'];        
         if($requestData['paymentKey'] == 'NOVALNET_CC') {
             $serverRequestData['data']['pan_hash'] = $requestData['nn_pan_hash'];
             $serverRequestData['data']['unique_id'] = $requestData['nn_unique_id'];
@@ -193,7 +195,7 @@ class PaymentController extends Controller
         else if( in_array( $requestData['paymentKey'], $guarantee_payments ) ) 
         {   
             // Mandatory Params For Novalnet SEPA
-            if ( $requestData['paymentKey'] == 'NOVALNET_SEPA' ) {
+            if ( in_array($requestData['paymentKey'],['NOVALNET_SEPA', 'NOVALNET_INSTALMENT_SEPA'] ) {
                     $serverRequestData['data']['bank_account_holder'] = $requestData['nn_sepa_cardholder'];
                     $serverRequestData['data']['iban'] = $requestData['nn_sepa_iban'];                  
             }            
@@ -214,19 +216,27 @@ class PaymentController extends Controller
 
                     // Guarantee Params Formation 
                     if( $requestData['paymentKey'] == 'NOVALNET_SEPA' ) {
-                    $serverRequestData['data']['payment_type'] = 'GUARANTEED_DIRECT_DEBIT_SEPA';
-                    $serverRequestData['data']['key']          = '40';
-                    $serverRequestData['data']['birth_date']   =  $birthday;
+                        $serverRequestData['data']['payment_type'] = 'GUARANTEED_DIRECT_DEBIT_SEPA';
+                        $serverRequestData['data']['key']          = '40';
+                        $serverRequestData['data']['birth_date']   =  $birthday;
+                    } elseif(strpos('INSTALMENT', $requestData['paymentKey'])) {
+                        $serverRequestData['data']['payment_type'] = $requestData['paymentKey'] ? 'NOVALNET_INSTALMENT_INVOICE' ? 'INSTALMENT_INVOICE' : 'INSTALMENT_DIRECT_DEBIT_SEPA';
+                        $serverRequestData['data']['key']          = $requestData['paymentKey'] ? 'NOVALNET_INSTALMENT_INVOICE' ? '96' : '97';
+                        $serverRequestData['data']['instalment_cycles'] = $requestData['nn_instalment_cycle'],
+                        $serverRequestData['data']['instalment_period'] =  '1m',
+                        $serverRequestData['data']['birth_date']   =  $birthday;
+                        
                     } else {                        
-                    $serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
-                    $serverRequestData['data']['key']          = '41';
-                    $serverRequestData['data']['birth_date']   =  $birthday;
+                        $serverRequestData['data']['payment_type'] = 'GUARANTEED_INVOICE';
+                        $serverRequestData['data']['key']          = '41';
+                        $serverRequestData['data']['birth_date']   =  $birthday;
                     }
             }
         }
         if (!empty ($address->companyName) ) {
             unset($serverRequestData['data']['birth_date']);
         }
+                $this->getLogger(__METHOD__)->error('controller request', $serverRequestData);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);  
         return $this->response->redirectTo('place-order');
     }
