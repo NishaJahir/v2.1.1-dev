@@ -76,7 +76,7 @@
                             {% for instalmentCycle in instalmentCycles %}
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round %}
                             {% if instalmentCycleAmount > 999 %}
-                                <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{orderCurrency}} {{instalmentCycleAmount / 100 | number_format(2, '.', ',') }} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
+                                <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{orderCurrency}} {{ (instalmentCycleAmount / 100) | number_format(2, '.', ',') }} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
                             {% endif %}
                             {% endfor %}
                         </select>
