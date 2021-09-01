@@ -9,7 +9,7 @@ jQuery(document).ready( function() {
                 } else {
                     var lastCycleAmount = (jQuery('#nn_order_amount').val() - (jQuery(this).find(':selected').attr('data-cycle-amount') * (jQuery(this).val() - 1)));
                     
-                    cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+ formatMoney(lastCycleAmount) + ' '+ jQuery('#nn_order_currency').val()+'</td></tr>';
+                    cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+ jQuery('#nn_order_currency').val() + ' ' + formatMoney(lastCycleAmount) +'</td></tr>';
                 }
             }                           
             jQuery('#nn_instalment_cycle_information').html(cycleInformation);
