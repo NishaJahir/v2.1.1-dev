@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{{plugin_path('Novalnet')}}/css/novalnet_ui.css">
-
+<script src="{{ plugin_path('Novalnet') }}/js/novalnet_instalment.js"></script>
 
 <form method="post" id="novalnet_form" name="novalnet_form" action="{{nnPaymentProcessUrl}}">
     
@@ -18,6 +18,8 @@
                 <input type="hidden" id="nn_dob_empty" name="nn_dob_empty" value="{{trans("Novalnet::PaymentMethod.dobEmpty")}}">
                 <input type="hidden" id="nn_dob_invalid" name="nn_dob_invalid" value="{{trans("Novalnet::PaymentMethod.dobInvalid")}}">
                 <input type="hidden" id="nn_dob_month" name="nn_dob_month" value="{{trans("Novalnet::PaymentMethod.monthOption")}}">
+                <input type="hidden" id="nn_order_amount" name="nn_order_amount" value="{{orderAmount}}">
+                <input type="hidden" id="nn_order_currency" name="nn_order_currency" value="{{orderCurrency}}">
                 
                 {% if paymentMopKey == "NOVALNET_INSTALMENT_SEPA" %}
                 <script src="{{ plugin_path('Novalnet') }}/js/novalnet_sepa.js"></script>
@@ -76,7 +78,8 @@
                             {% for instalmentCycle in instalmentCycles %}
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round %}
                             {% if instalmentCycleAmount > 999 %}
-                                <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{orderCurrency}} {{ (instalmentCycleAmount / 100) | number_format(2, '.', ',') }} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
+                                {% set perInstalmentCycleAmount =  (instalmentCycleAmount / 100) | number_format(2, '.', ',') %}
+                                <option value="{{instalmentCycle}}" data-amount="{{orderCurrency}} {{perInstalmentCycleAmount}}" data-cycle-amount="{{perInstalmentCycleAmount}}">{{instalmentCycle}} x {{orderCurrency}} {{perInstalmentCycleAmount}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
                             {% endif %}
                             {% endfor %}
                         </select>
