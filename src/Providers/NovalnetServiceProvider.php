@@ -283,8 +283,6 @@ class NovalnetServiceProvider extends ServiceProvider
                                  ]);
                             $contentType = 'htmlContent';
                         } elseif($paymentKey == 'NOVALNET_SEPA') {
-                                $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
-                                
                                 $contentType = 'htmlContent';
                                 $guaranteeStatus = $paymentService->getGuaranteeStatus($basketRepository->load(), $paymentKey);
 
@@ -299,7 +297,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                            $show_birthday = true;
                                      }
                                     $content = $twig->render('Novalnet::PaymentForm.NOVALNET_SEPA', [
-                                                                    'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                    'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
                                                                     'paymentMopKey'     =>  $paymentKey,
                                                                     'paymentName' => $paymentName,  
                                                                     'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
@@ -309,7 +307,7 @@ class NovalnetServiceProvider extends ServiceProvider
                           } elseif(in_array($paymentKey, ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
                                 
                                 $content = $twig->render('Novalnet::PaymentForm.NOVALNET_INSTALMENT', [
-                                                                    'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                    'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
                                                                     'paymentMopKey'     =>  $paymentKey,
                                                                     'paymentName' => $paymentName,  
                                                                     'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
