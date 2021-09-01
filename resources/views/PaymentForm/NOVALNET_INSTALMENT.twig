@@ -70,7 +70,7 @@
                  {% if instalmentCycles is not empty %}
                  <div class="row">
                     <div class="col-sm-12">
-                        <span>{{trans("Novalnet::PaymentMethod.novalnet_instalment_plan")}}<strong>({{trans("Novalnet::PaymentMethod.novalnet_instalment_net_amount")}}  {{orderAmount}} {{orderCurrency}} )<span style="color:red;"> * </span></strong></span>
+                        <span>{{trans("Novalnet::PaymentMethod.novalnet_instalment_plan")}}<strong>({{trans("Novalnet::PaymentMethod.novalnet_instalment_net_amount")}}  {{orderAmount / 100 | round(2, 'floor')}}   {{orderCurrency}} )<span style="color:red;"> * </span></strong></span>
                     </div>
                     
                     <div class="col-sm-12">
