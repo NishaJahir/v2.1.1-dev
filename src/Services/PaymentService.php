@@ -600,6 +600,8 @@ class PaymentService
             'NOVALNET_GIROPAY'=>NovalnetConstants::GIROPAY_PAYMENT_URL,
             'NOVALNET_PRZELEWY'=>NovalnetConstants::PRZELEWY_PAYMENT_URL,
             'NOVALNET_SOFORT'=>NovalnetConstants::SOFORT_PAYMENT_URL,
+	    'NOVALNET_INSTALMENT_INVOICE'=>NovalnetConstants::PAYPORT_URL,
+	    'NOVALNET_INSTALMENT_SEPA'=>NovalnetConstants::PAYPORT_URL,
         ];
 
         return $payment[$paymentKey];
