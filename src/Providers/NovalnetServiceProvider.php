@@ -271,16 +271,16 @@ class NovalnetServiceProvider extends ServiceProvider
                                         $contentType = 'continue';
                            }
                         } elseif ($paymentKey == 'NOVALNET_CC') { # Credit Card
-                $ccFormDetails = $paymentService->getCreditCardAuthenticationCallData($basket, $paymentKey);
+                            $ccFormDetails = $paymentService->getCreditCardAuthenticationCallData($basket, $paymentKey);
                             $ccCustomFields = $paymentService->getCcFormFields();
             
                             $content = $twig->render('Novalnet::PaymentForm.NOVALNET_CC', [
                                 'nnPaymentProcessUrl'   => $paymentService->getProcessPaymentUrl(),
                                 'paymentMopKey'         =>  $paymentKey,
                                 'paymentName' => $paymentName,
-                'ccFormDetails'       => !empty($ccFormDetails) ? $ccFormDetails : '',
+                                'ccFormDetails'       => !empty($ccFormDetails) ? $ccFormDetails : '',
                                 'ccCustomFields'       => !empty($ccCustomFields) ? $ccCustomFields : ''
-                                       ]);
+                                 ]);
                             $contentType = 'htmlContent';
                         } elseif($paymentKey == 'NOVALNET_SEPA') {
                                 $paymentProcessUrl = $paymentService->getProcessPaymentUrl();
@@ -297,7 +297,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                 {
                                     if( empty($address->companyName) && empty($birthday)) {
                                            $show_birthday = true;
-                                        }
+                                     }
                                     $content = $twig->render('Novalnet::PaymentForm.NOVALNET_SEPA', [
                                                                     'nnPaymentProcessUrl' => $paymentProcessUrl,
                                                                     'paymentMopKey'     =>  $paymentKey,
@@ -306,6 +306,18 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     'nnGuaranteeStatus' => $show_birthday ? $guaranteeStatus : ''
                                                                     ]);
                                 }
+                          } elseif(in_array($paymentKey, ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
+                                
+                                $content = $twig->render('Novalnet::PaymentForm.NOVALNET_INSTALMENT', [
+                                                                    'nnPaymentProcessUrl' => $paymentProcessUrl,
+                                                                    'paymentMopKey'     =>  $paymentKey,
+                                                                    'paymentName' => $paymentName,  
+                                                                    'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
+                                                                    'orderAmount' => $paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount),
+                                                                    'orderCurreny' => $basket->currency,
+                                                                    'instalmentCycles' => trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles'))
+                                                                    ]);
+                               $contentType = 'htmlContent';
                             } else {
                                 if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT']))
                                 {
