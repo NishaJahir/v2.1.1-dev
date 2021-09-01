@@ -220,8 +220,6 @@ class PaymentController extends Controller
                         $serverRequestData['data']['key']          = '40';
                         $serverRequestData['data']['birth_date']   =  $birthday;
                     } elseif(strpos('INSTALMENT', $requestData['paymentKey'])) {
-                        $serverRequestData['data']['payment_type'] = $requestData['paymentKey'] == 'NOVALNET_INSTALMENT_INVOICE' ? 'INSTALMENT_INVOICE' : 'INSTALMENT_DIRECT_DEBIT_SEPA';
-                        $serverRequestData['data']['key']          = $requestData['paymentKey'] == 'NOVALNET_INSTALMENT_INVOICE' ? '96' : '97';
                         $serverRequestData['data']['instalment_cycles'] = $requestData['nn_instalment_cycle'];
                         $serverRequestData['data']['instalment_period'] =  '1m';
                         $serverRequestData['data']['birth_date']   =  $birthday;
