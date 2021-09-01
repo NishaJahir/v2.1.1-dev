@@ -312,8 +312,7 @@ class PaymentService
             'system_version'     => NovalnetConstants::PLUGIN_VERSION,
             'notify_url'         => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl . '/payment/novalnet/callback/',
             'key'                => $this->getkeyByPaymentKey($paymentKey),
-            'payment_type'       => $this->getTypeByPaymentKey($paymentKey),
-            'referrer_id'        => '184'
+            'payment_type'       => $this->getTypeByPaymentKey($paymentKey)
         ];
 
         if(!empty($address->houseNumber))
@@ -643,6 +642,8 @@ class PaymentService
             'NOVALNET_GIROPAY'=>'69',
             'NOVALNET_PRZELEWY'=>'78',
             'NOVALNET_SOFORT'=>'33',
+            'NOVALNET_INSTALMENT_INVOICE'=>'96',
+            'NOVALNET_INSTALMENT_SEPA'=>'97'
         ];
 
         return $payment[$paymentKey];
@@ -668,6 +669,8 @@ class PaymentService
             'NOVALNET_GIROPAY'=>'GIROPAY',
             'NOVALNET_PRZELEWY'=>'PRZELEWY24',
             'NOVALNET_SOFORT'=>'ONLINE_TRANSFER',
+            'NOVALNET_INSTALMENT_INVOICE'=>'INSTALMENT_INVOICE',
+            'NOVALNET_INSTALMENT_SEPA'=>'INSTALMENT_DIRECT_DEBIT_SEPA'
         ];
 
         return $payment[$paymentKey];
