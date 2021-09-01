@@ -20,10 +20,9 @@
                 <input type="hidden" id="nn_dob_month" name="nn_dob_month" value="{{trans("Novalnet::PaymentMethod.monthOption")}}">
                 
                 {% if paymentMopKey == "NOVALNET_INSTALMENT_SEPA" %}
-                <div class="row">
-                    <div class="col-xs-12">
+                
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12">
+                            <div class="col-sm-12">
                                 <div class="input-unit">
                                     <input type="text" name="nn_sepa_cardholder" value="{{endcustomername}}" id="nn_sepa_cardholder"> 
                                     <label for="sepa_holder">{{trans("Novalnet::PaymentMethod.sepa_account_holder_label")}}*</label>
@@ -40,8 +39,6 @@
                                 
                             </div>
                         </div> 
-                    </div>
-                </div>
                 {% endif %}
                 
                 {% if showDob == true %}
@@ -68,21 +65,23 @@
                  {% endif %}
                  
                  {% if instalmentCycles is not empty %}
-                 <div class="row">
+                 <div class="row select-instalment">
                     <div class="col-sm-12">
                         <span>{{trans("Novalnet::PaymentMethod.novalnet_instalment_plan")}}<strong>({{trans("Novalnet::PaymentMethod.novalnet_instalment_net_amount")}}  {{orderAmount / 100 | round(2, 'floor')}}   {{orderCurrency}} )<span style="color:red;"> * </span></strong></span>
                     </div>
                     
                     <div class="col-sm-12">
-                        <select id="nn_insalment_cycle" type="text" name="nn_insalment_cycle" class="form-control">
+                       <div class="input-unit">
+                        <select id="nn_insalment_cycle" type="text" name="nn_insalment_cycle" class="custom-select">
                             {% for instalmentCycle in instalmentCycles %}
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round(2, 'floor') %}
-                            {% if instalmentCycleAmount > 9.99 %}
-                                <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{instalmentCycleAmount}} {{orderCurrency}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
+                            {% if instalmentCycleAmount > 999 %}
+                                <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{instalmentCycleAmount / 100 | round(2, 'floor') }} {{orderCurrency}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
                             {% endif %}
                             {% endfor %}
                         </select>
                         <label for="instalment_cycle">{{trans("Novalnet::PaymentMethod.novalnet_instalment_cycle")}}</label>
+                       </div>
                     </div>
                     
                     <div class="col-sm-12 container">           
