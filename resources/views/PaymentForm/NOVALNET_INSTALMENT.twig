@@ -20,7 +20,7 @@
                 <input type="hidden" id="nn_dob_month" name="nn_dob_month" value="{{trans("Novalnet::PaymentMethod.monthOption")}}">
                 
                 {% if paymentMopKey == "NOVALNET_INSTALMENT_SEPA" %}
-                
+                <script src="{{ plugin_path('Novalnet') }}/js/novalnet_sepa.js"></script>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="input-unit">
