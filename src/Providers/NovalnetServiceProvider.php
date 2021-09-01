@@ -305,7 +305,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     ]);
                                 }
                           } elseif(in_array($paymentKey, ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
-                                $this->getLogger(__METHOD__)->error('cycle detail', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles')));
+                                $this->getLogger(__METHOD__)->error('cycle detail info', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles')));
                                 $content = $twig->render('Novalnet::PaymentForm.NOVALNET_INSTALMENT', [
                                                                     'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
                                                                     'paymentMopKey'     =>  $paymentKey,
@@ -314,7 +314,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     'orderAmount' => $paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount),
                                                                     'orderCurrency' => $basket->currency,
                                                                     'showDob' => empty($address->companyName) ? true : false,
-                                                                    'instalmentCycles' => trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles'))
+                                                                    'instalmentCycles' => explode(',', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles'))
                                                                     ]);
                                $contentType = 'htmlContent';
                             } else {
