@@ -696,37 +696,22 @@ class PaymentService
     */
      public function getGuaranteeStatus(Basket $basket, $paymentKey)
     {
-	try {
         // Get payment name in lowercase
         $paymentKeyLow = strtolower((string) $paymentKey);
-        
-        // Check if payment method enabled
-        $isGuaranteedPaymentActive = in_array($paymentKey, ['novalnet_instalment_invoice', 'novalnet_instalment_sepa']) ? $this->config->get('Novalnet.'.$paymentKey.'_payment_active') :
-        $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
-        
-        if ($isGuaranteedPaymentActive == 'true') {
-            // Get the guarantee payment minimum transaction amount value
-            
-            // By default, the minimum is 9,99 EUR for guarantee or 19,98 EUR for minimum two cycles of Instalment type
-            $minimumAmountForGuaranteeOrInstalment = strpos($paymentKey, 'instalment') ? 1998 : 999;
-            
-            $configuredMinimumAmount = in_array($paymentKey, ['novalnet_instalment_invoice', 'novalnet_instalment_sepa']) ? $this->config->get('Novalnet.'.$paymentKey.'_min_amount') :
-            $this->config->get('Novalnet.'.$paymentKeyLow.'_guarantee_min_amount');
-            
-            $orderAmount        = (sprintf('%0.2f', $basket->basketAmount) * 100);
-            
-            $minimumAmount = ((preg_match('/^[0-9]*$/', $configuredMinimumAmount) && $configuredMinimumAmount >= $minimumAmountForGuaranteeOrInstalment)  ? $configuredMinimumAmount : $minimumAmountForGuaranteeOrInstalment);
-            
-            // Get the customer billing and shipping  details
+        $guaranteePayment = $this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_active');
+        if ($guaranteePayment == 'true') {
+            // Get guarantee minimum amount value
+            $minimumAmount = $this->paymentHelper->getNovalnetConfig($paymentKeyLow . '_guarantee_min_amount');
+            $minimumAmount = ((preg_match('/^[0-9]*$/', $minimumAmount) && $minimumAmount >= '999')  ? $minimumAmount : '999');
+            $amount        = (sprintf('%0.2f', $basket->basketAmount) * 100);
+
             $billingAddressId = $basket->customerInvoiceAddressId;
             $billingAddress = $this->addressRepository->findAddressById($billingAddressId);
             $customerBillingIsoCode = strtoupper($this->countryRepository->findIsoCode($billingAddress->countryId, 'iso_code_2'));
 
             $shippingAddressId = $basket->customerShippingAddressId;
 
-            $addressValidation = $isPaymentSupportedCountry = false;
-	    $isInstalementCycleValid = true;
-		
+            $addressValidation = false;
             if(!empty($shippingAddressId))
             {
                 $shippingAddress = $this->addressRepository->findAddressById($shippingAddressId);
@@ -750,30 +735,17 @@ class PaymentService
              {
                  $addressValidation = true;
              }
-             
-             
-	     
-             // Check these special conditions to instalment payments only
-            if(strpos($paymentKey, 'instalment')) {
-                
-                // Is European region
-                $isPaymentSupportedCountry = $this->getEuropeanRegionCountryCodes($paymentKey, $customerBillingIsoCode);
-                
-                // Check instalment cycles
-                $instalementCycles = explode(',', $this->config->get('Novalnet.' .$paymentKey . '_cycles'));
-                if($minimumAmount >= 1998) {
-                    foreach($instalementCycles as $key => $value) {
-                        $cycleAmount = ($orderAmount / $value);
-                        if(!($cycleAmount >= 999)) {
-                            $isInstalementCycleValid = false;
-                        }
-                    }
-                }
-            }
-             
-            // Check guarantee payment conditions
-            if ((((int) $orderAmount >= (int) $minimumAmount && (in_array($customerBillingIsoCode, ['DE', 'AT', 'CH']) || $isPaymentSupportedCountry) && $basket->currency == 'EUR' && ($addressValidation || ($billingAddress === $shippingAddress)) && $isInstalementCycleValid))) {
-                $processingType = in_array($paymentKey, ['novalnet_instalment_invoice', 'novalnet_instalment_sepa']) ? 'instalment' : 'guarantee';
+            // Check guarantee payment
+            if ((((int) $amount >= (int) $minimumAmount && in_array(
+                $customerBillingIsoCode,
+                [
+                 'DE',
+                 'AT',
+                 'CH',
+                ]
+            ) && $basket->currency == 'EUR' && ($addressValidation || ($billingAddress === $shippingAddress)))
+            )) {
+                $processingType = 'guarantee';
             } elseif ($this->config->get('Novalnet.'.$paymentKeyLow.'_payment_guarantee_force_active') == 'true') {   
                 $processingType = 'normal';
             } else {
@@ -789,13 +761,7 @@ class PaymentService
             }
             return $processingType;
         }//end if
-        else {
-            return in_array($paymentKey, ['novalnet_instalment_invoice', 'novalnet_instalment_sepa']) ? 'error' : 'normal';
-        }
-		
-	} catch (\Exception $e) {
- 	   $this->getLogger(__METHOD__)->error('Novalnet::getGuaranteeStatus', $e);
-	}
+        return 'normal';
     }
     
        /**
