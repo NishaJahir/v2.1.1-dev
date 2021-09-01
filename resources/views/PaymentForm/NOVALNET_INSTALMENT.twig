@@ -18,7 +18,7 @@
                 <input type="hidden" id="nn_dob_empty" name="nn_dob_empty" value="{{trans("Novalnet::PaymentMethod.dobEmpty")}}">
                 <input type="hidden" id="nn_dob_invalid" name="nn_dob_invalid" value="{{trans("Novalnet::PaymentMethod.dobInvalid")}}">
                 <input type="hidden" id="nn_dob_month" name="nn_dob_month" value="{{trans("Novalnet::PaymentMethod.monthOption")}}">
-                <input type="hidden" id="nn_order_amount" name="nn_order_amount" value="{{orderAmount}}">
+                <input type="hidden" id="nn_order_amount" name="nn_order_amount" value="{{orderAmount / 100}}">
                 <input type="hidden" id="nn_order_currency" name="nn_order_currency" value="{{orderCurrency}}">
                 
                 {% if paymentMopKey == "NOVALNET_INSTALMENT_SEPA" %}
@@ -79,7 +79,7 @@
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round %}
                             {% if instalmentCycleAmount > 999 %}
                                 {% set perInstalmentCycleAmount =  (instalmentCycleAmount / 100) | number_format(2, '.', ',') %}
-                                <option value="{{instalmentCycle}}" data-amount="{{orderCurrency}} {{perInstalmentCycleAmount}}" data-cycle-amount="{{perInstalmentCycleAmount}}">{{instalmentCycle}} x {{orderCurrency}} {{perInstalmentCycleAmount}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
+                                <option value="{{instalmentCycle}}" data-amount="{{orderCurrency}} {{perInstalmentCycleAmount}}" data-cycle-amount="{{(instalmentCycleAmount / 100)}}">{{instalmentCycle}} x {{orderCurrency}} {{perInstalmentCycleAmount}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
                             {% endif %}
                             {% endfor %}
                         </select>
