@@ -35,14 +35,14 @@
                                 <div id="iban_details" class="collapse card-body" style="background:whitesmoke;padding:3%;">
                                 <div>{{trans("Novalnet::PaymentMethod.ibanDesc")}}</div><br>
                                 <div><b>{{trans("Novalnet::PaymentMethod.creditorIdentifier")}} </div></b><br>
-                                <div><b>{{trans("Novalnet::PaymentMethod.note")}}</b> {{trans("Novalnet::PaymentMethod.noteDesc")}}</div></div><br>
+                                <div><b>{{trans("Novalnet::PaymentMethod.note")}}</b> {{trans("Novalnet::PaymentMethod.noteDesc")}}</div></div>
                                 
                             </div>
-                        </div> 
+                        </div><br>
                 {% endif %}
                 
                 {% if showDob == true %}
-                        <script defer src="{{plugin_path('Novalnet')}}/js/novalnet_guarantee_payment.js"></script><br>
+                        <script defer src="{{plugin_path('Novalnet')}}/js/novalnet_guarantee_payment.js"></script>
                         <div class="row">
                             <div class="col-sm-12">
                                 <b><label for="nn_birthday">{{trans("Novalnet::PaymentMethod.birthdate_label")}}<span class="text-danger">*</span></label></b>
@@ -72,8 +72,10 @@
                     
                     <div class="col-sm-12">
                        <div class="input-unit">
+                       <input type="hidde" name="nn_cycles" value="{{instalmentCycles}}">
                         <select id="nn_insalment_cycle" type="text" name="nn_insalment_cycle" class="custom-select">
                             {% for instalmentCycle in instalmentCycles %}
+                            <input type="hidde" name="nn_cycle" value="{{instalmentCycle}}">
                             {% set instalmentCycleAmount = ( orderAmount / instalmentCycle) | round(2, 'floor') %}
                             {% if instalmentCycleAmount > 999 %}
                                 <option value="{{instalmentCycle}}">{{instalmentCycle}} x {{instalmentCycleAmount / 100 | round(2, 'floor') }} {{orderCurrency}} ({{ trans("Novalnet::PaymentMethod.novalnet_per_month_text") }})</option>
