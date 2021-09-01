@@ -314,7 +314,7 @@ class NovalnetServiceProvider extends ServiceProvider
                                                                     'orderAmount' => $paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount),
                                                                     'orderCurrency' => $basket->currency,
                                                                     'showDob' => empty($address->companyName) ? true : false,
-                                                                    'instalmentCycles' => explode(',', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles'))
+                                                                    'instalmentCycles' => explode(',', trim($config->get('Novalnet.' . strtolower($paymentKey) . '_cycles')))
                                                                     ]);
                                $contentType = 'htmlContent';
                             } else {
