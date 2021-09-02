@@ -191,7 +191,7 @@ class PaymentController extends Controller
                 return $this->response->redirectTo('place-order');
             }
         }
-        // Handles Guarantee and Normal Payment
+        // Handles Guarantee, Instalment and Normal Payment
         else if( in_array( $requestData['paymentKey'], $guarantee_payments ) ) 
         {   
             // Mandatory Params For Novalnet SEPA
@@ -202,7 +202,7 @@ class PaymentController extends Controller
             
             $guranteeStatus = $this->paymentService->getGuaranteeStatus($this->basketRepository->load(), $requestData['paymentKey']);                        
             
-            if('guarantee' == $guranteeStatus)
+            if('guarantee' == $guranteeStatus || in_array($requestData['paymentKey'],['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'] ))
             {    
                 $birthday = sprintf('%4d-%02d-%02d',$requestData['nn_guarantee_year'],$requestData['nn_guarantee_month'],$requestData['nn_guarantee_date']);
                 $birthday = !empty($dob)? $dob :  $birthday;
@@ -234,7 +234,7 @@ class PaymentController extends Controller
         if (!empty ($address->companyName) ) {
             unset($serverRequestData['data']['birth_date']);
         }
-                $this->getLogger(__METHOD__)->error('controller request updated', $serverRequestData);
+        $this->getLogger(__METHOD__)->error('request params controller', $serverRequestData);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);  
         return $this->response->redirectTo('place-order');
     }
