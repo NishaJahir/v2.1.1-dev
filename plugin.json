@@ -40,11 +40,6 @@
       "key":"Novalnet\\Providers\\DataProvider\\ReinitializePayment",
       "name":"Novalnet Reinitialize Payment",
       "description":"Display the Payment Button after the Payment changed to the PaymentMethod"
-    },
-    {
-      "key":"Novalnet\\Providers\\DataProvider\\PaymentMethodReinitializePaymentScript",
-      "name":"Novalnet Reinitialize Payment Script",
-      "description":"A Script for displaying the Payment Button after the Payment changed to the PaymentMethod"
     }
   ]
 }
