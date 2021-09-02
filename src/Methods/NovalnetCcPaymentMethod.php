@@ -154,7 +154,7 @@ class NovalnetCcPaymentMethod extends PaymentMethodService
      */
     public function isSwitchableTo(): bool
     {
-        return true;
+        return false;
     }
 
     /**
