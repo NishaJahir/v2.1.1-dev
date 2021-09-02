@@ -383,21 +383,22 @@ class NovalnetServiceProvider extends ServiceProvider
                                 $event->setType($contentType);
                         } 
                 });
-$this->getLogger(__METHOD__)->error('before in execute payment', 'execute payment');
+
         // Listen for the event that executes the payment
         $eventDispatcher->listen(ExecutePayment::class,
             function (ExecutePayment $event) use ($paymentHelper, $paymentService, $sessionStorage, $transactionLogData,$config,$basketRepository)
             {
-                $this->getLogger(__METHOD__)->error('enter in execute payment', $event->getMop());
+                
                 if($paymentHelper->getPaymentKeyByMop($event->getMop())) {
                     $sessionStorage->getPlugin()->setValue('nnOrderNo',$event->getOrderId());
                     $sessionStorage->getPlugin()->setValue('mop',$event->getMop());
                     $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
                     $sessionStorage->getPlugin()->setValue('paymentkey', $paymentKey);
-            $doRedirect = $sessionStorage->getPlugin()->getValue('nnDoRedirect');
-            $this->getLogger(__METHOD__)->error('novalnet in execute payment', $paymentKey);
+                    $doRedirect = $sessionStorage->getPlugin()->getValue('nnDoRedirect');
+            
 
                     if(!$paymentService->isRedirectPayment($paymentKey, $doRedirect)) {
+                        $this->getLogger(__METHOD__)->error('called', $paymentKey);
                          $paymentService->paymentCalltoNovalnetServer();
                          $paymentService->validateResponse();
                     } else {
