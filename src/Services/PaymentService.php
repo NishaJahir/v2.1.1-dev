@@ -978,15 +978,13 @@ class PaymentService
         $notificationMessage = $this->paymentHelper->getNovalnetStatusText($responseData);
         $responseData['payment_id'] = (!empty($responseData['payment_id'])) ? $responseData['payment_id'] : $responseData['key'];
         $isPaymentSuccess = isset($responseData['status']) && $responseData['status'] == '100';
-        
+        $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
         if($isPaymentSuccess)
         {           
             if(isset($serverRequestData['data']['pan_hash']))
             {
                 unset($serverRequestData['data']['pan_hash']);
             }
-            
-            $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($serverRequestData['data'], $responseData));
             $this->pushNotification($notificationMessage, 'success', 100);
             
         } else {
