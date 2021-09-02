@@ -219,7 +219,7 @@ class PaymentController extends Controller
                         $serverRequestData['data']['payment_type'] = 'GUARANTEED_DIRECT_DEBIT_SEPA';
                         $serverRequestData['data']['key']          = '40';
                         $serverRequestData['data']['birth_date']   =  $birthday;
-                    } elseif(strpos('INSTALMENT', $requestData['paymentKey'])) {
+                    } elseif(strpos($requestData['paymentKey'], 'INSTALMENT')) {
                         $serverRequestData['data']['instalment_cycles'] = $requestData['nn_instalment_cycle'];
                         $serverRequestData['data']['instalment_period'] =  '1m';
                         $serverRequestData['data']['birth_date']   =  $birthday;
@@ -234,7 +234,7 @@ class PaymentController extends Controller
         if (!empty ($address->companyName) ) {
             unset($serverRequestData['data']['birth_date']);
         }
-                $this->getLogger(__METHOD__)->error('controller request', $serverRequestData);
+                $this->getLogger(__METHOD__)->error('controller request updated', $serverRequestData);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);  
         return $this->response->redirectTo('place-order');
     }
