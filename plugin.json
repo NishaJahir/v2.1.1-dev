@@ -37,9 +37,14 @@
       "description" : "Display the Novalnet payment details on the order confirmation page"
     },
     {
-      "key":"Novalnet\\Providers\\DataProvider\\ReinitializePayment",
-      "name":"Novalnet Reinitialize Payment",
+      "key":"Novalnet\\Providers\\DataProvider\\PaymentMethodReinitializePayment",
+      "name":"Payment Method Reinitialize Payment",
       "description":"Display the Payment Button after the Payment changed to the PaymentMethod"
+    },
+    {
+      "key":"Novalnet\\Providers\\DataProvider\\PaymentMethodReinitializePaymentScript",
+      "name":"PaymentMethod Reinitialize Payment Script",
+      "description":"A Script for displaying the Payment Button after the Payment changed to the PaymentMethod"
     }
   ]
 }
