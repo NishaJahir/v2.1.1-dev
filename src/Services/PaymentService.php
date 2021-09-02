@@ -159,6 +159,8 @@ class PaymentService
        
         $nnPaymentData['mop']            = $this->sessionStorage->getPlugin()->getValue('mop');
         $nnPaymentData['payment_method'] = strtolower($this->paymentHelper->getPaymentKeyByMop($nnPaymentData['mop']));
+	    
+	$this->getLogger(__METHOD__)->error('nn payment data', $nnPaymentData);
         
         if($nnPaymentData['payment_id'] == '59' && !empty($nnPaymentData['cp_checkout_token']))
         {
@@ -182,7 +184,7 @@ class PaymentService
             $transactionData['callback_amount'] = 0;    
 
         $this->transactionLogData->saveTransaction($transactionData);
-        
+        $this->getLogger(__METHOD__)->error('nn payment data', $nnPaymentData);
     $this->executePayment($nnPaymentData);
 
      }
@@ -197,6 +199,8 @@ class PaymentService
      */
     public function executePayment($requestData, $callbackfailure = false)
     {
+	    
+	    $this->getLogger(__METHOD__)->error('nn execute fn data', $requestData);
         try {
             if(!$callbackfailure &&  in_array($requestData['status'], ['100', '90'])) {
                 if(in_array($requestData['tid_status'], ['75', '85', '86', '90', '91', '98', '99']) || in_array($requestData['payment_id'], ['27', '59']) && $requestData['tid_status'] == '100') {
