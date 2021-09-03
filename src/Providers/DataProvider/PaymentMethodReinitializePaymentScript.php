@@ -1,9 +1,9 @@
 <?php
 
-namespace PaymentMethod\Providers\DataProvider;
+namespace Novalnet\Providers\DataProvider;
 
 use Plenty\Plugin\Templates\Twig;
-use PaymentMethod\Helper\PaymentHelper;
+use Novalnet\Helper\PaymentHelper;
 
 class PaymentMethodReinitializePaymentScript
 {
