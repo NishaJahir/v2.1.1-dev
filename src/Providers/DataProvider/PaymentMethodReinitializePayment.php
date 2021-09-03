@@ -24,8 +24,8 @@ class PaymentMethodReinitializePayment
               $paymentIds[] = $paymentMethod->id;
           }
       }
-
-    return $twig->render('Novalnet::PaymentMethodReinitializePayment', ["order" => $arg[0], 'paymentIds' => $paymentIds]);
+    $content = 'continue';
+    return $twig->render('Novalnet::PaymentMethodReinitializePayment', ["content" => $content]);
   }
 }
 
