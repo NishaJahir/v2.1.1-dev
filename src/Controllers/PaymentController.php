@@ -265,9 +265,9 @@ class PaymentController extends Controller
           }
     }
     
-    public function reInit(AuthHelper $authHelper, Request $request)
+    public function reInit()
     {
-        $this->getLogger(__METHOD__)->error('controller reinit', $request->get->all());
+        $this->getLogger(__METHOD__)->error('controller reinit', $this->request->all());
        
     }
     
