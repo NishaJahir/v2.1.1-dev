@@ -11,7 +11,7 @@ use Plenty\Plugin\Log\Loggable;
 
 class PaymentMethodReinitializePayment
 {
-  use Loggable;
+
   
   public function call(Twig $twig, $arg)
   {
@@ -24,8 +24,7 @@ class PaymentMethodReinitializePayment
               $paymentIds[] = $paymentMethod->id;
           }
       }
-    $this->getLogger(__METHOD__)->error('methods', $paymentMethods);
-    $this->getLogger(__METHOD__)->error('ids', $paymentIds);
+
     return $twig->render('Novalnet::PaymentMethodReinitializePayment', ["order" => $arg[0], 'paymentIds' => $paymentIds]);
   }
 }
