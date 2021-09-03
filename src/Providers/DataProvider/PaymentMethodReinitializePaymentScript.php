@@ -1,14 +1,16 @@
 <?php
 
-namespace Novalnet\Providers\DataProvider;
+namespace PaymentMethod\Providers\DataProvider;
 
 use Plenty\Plugin\Templates\Twig;
-use Novalnet\Helper\PaymentHelper;
+use PaymentMethod\Helper\PaymentHelper;
 
 class PaymentMethodReinitializePaymentScript
 {
   public function call(Twig $twig):string
   {
-    return $twig->render('Novalnet::PaymentMethodReinitializePaymentScript', ['mopIds' => ['paymentMethodId' => 6002]]);
+    $paymentHelper = pluginApp(PaymentHelper::class);
+    
+    return $twig->render('PaymentMethod::PaymentMethodReinitializePaymentScript', ['mopIds' => ['paymentMethodId' => 6002]]);
   }
 }
