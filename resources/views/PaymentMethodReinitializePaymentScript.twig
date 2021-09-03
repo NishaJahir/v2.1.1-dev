@@ -1,6 +1,6 @@
 <script type="text/javascript">
   $(function () {
-    $('#reint').click(function () {
+    $("[id^='reinit-']").click(function () {
       var orderId = $(this).attr('id').split('-')[1];
       $.get("/payment/novalnet/reinit/"+orderId, function(data)
       //$.get("/payment/novalnet/processPayment/", function(data)
