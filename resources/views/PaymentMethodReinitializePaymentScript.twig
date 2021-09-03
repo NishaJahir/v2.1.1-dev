@@ -1,18 +1,23 @@
 <script type="text/javascript">
   $(function () {
-    $("[id^='reinit-']").click(function () {
+    $("[id^='reinitPaymentMethod-']").click(function () {
       var orderId = $(this).attr('id').split('-')[1];
-      $.get("/payment/novalnet/reinit/"+orderId, function(data)
-      //$.get("/payment/novalnet/processPayment/", function(data)
+      $.get("/payment/novalnet/payOrderNow/"+orderId, function(data)
       {
-        orderId: orderId;
         window.location = data;
-        console.log(data);
       });
     });
   });
 
-  
+  document.addEventListener('historyPaymentMethodChanged', e => {
+    for(let property in e.detail.newOrder.order.properties){
+      if(e.detail.newOrder.order.properties[property].typeId === 3){
+        if (e.detail.newOrder.order.properties[property].value == 6002) {
+          document.getElementById("reinitPaymentMethod-" + e.detail.oldOrder.order.id).style.display = "block";
+        } else {
+          document.getElementById("reinitPaymentMethod-" + e.detail.oldOrder.order.id).style.display = "none";
+        }
+      }
+    }
+  });
 </script>
-
-<button>Update Pay now</button>
