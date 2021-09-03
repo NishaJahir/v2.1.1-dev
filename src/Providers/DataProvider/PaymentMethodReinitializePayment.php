@@ -12,6 +12,6 @@ class PaymentMethodReinitializePayment
     /** @var PaymentHelper $paymentHelper */
     $paymentHelper = pluginApp(PaymentHelper::class);
     
-    return $twig->render('PaymentMethod::PaymentMethodReinitializePayment', ["order" => $arg[0], "paymentMethodId" => 6002]);
+    return $twig->render('Novalnet::PaymentMethodReinitializePayment', ["order" => $arg[0], "paymentMethodId" => 6002]);
   }
 }
