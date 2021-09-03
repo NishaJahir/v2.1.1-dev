@@ -3,7 +3,7 @@
 namespace Novalnet\Providers\DataProvider;
 
 use Plenty\Plugin\Templates\Twig;
-use Novalnet\Helpers\PaymentHelper;
+use Novalnet\Helper\PaymentHelper;
 
 class PaymentMethodReinitializePayment
 {
