@@ -18,14 +18,14 @@
 {% endif %}
 
 {% if services.template.isCurrentTemplate('tpl.my-account') %}
-  <button id="reinitPaymentMethod-{{order.id}}" class="btn btn-primary btn-block" @click="" data-toggle="modal" data-target="#paymentMethod" :disabled="" style="display: {{ display }}; margin-top: 0.5rem">
+  <button id="reinitPaymentMethod-{{order.id}}" class="btn btn-primary btn-block" @click="" data-toggle="modal" data-target="#novalnet" :disabled="" style="display: {{ display }}; margin-top: 0.5rem">
     Pay now
   </button>
 {% elseif services.template.isCurrentTemplate('tpl.confirmation') %}
   <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display: {{ display }};">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
-      <a class="payment-confirmation-btn" @click=""  data-target="#sepa" :disabled="">
+      <a class="payment-confirmation-btn" @click="preparePayment()"  data-target="#sepa" :disabled="">
         Novalnet payment
       </a>
     </span>
