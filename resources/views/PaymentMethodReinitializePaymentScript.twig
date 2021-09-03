@@ -5,6 +5,7 @@
       $.get("/payment/novalnet/reinit/"+orderId, function(data)
       //$.get("/payment/novalnet/processPayment/", function(data)
       {
+        orderId: orderId;
         window.location = data;
         console.log(data);
       });
