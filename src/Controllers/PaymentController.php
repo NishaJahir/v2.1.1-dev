@@ -27,7 +27,6 @@ use Plenty\Plugin\Templates\Twig;
 use Plenty\Plugin\ConfigRepository; 
 use Novalnet\Services\TransactionService;
 use Plenty\Plugin\Log\Loggable;
-use Mollie\Services\OrderService;
 use Plenty\Modules\Authorization\Services\AuthHelper;
 use Plenty\Modules\Frontend\Contracts\Checkout;
 
@@ -266,12 +265,10 @@ class PaymentController extends Controller
           }
     }
     
-    public function reInit(OrderService $orderService, AuthHelper $authHelper, Request $request)
+    public function reInit(AuthHelper $authHelper, Request $request)
     {
         $this->getLogger(__METHOD__)->error('controller reinit', $request->get->all());
-        return $authHelper->processUnguarded(function () use ($orderService, $request) {
-            return $orderService->prepareOrder($request->get('orderId'));
-        });
+       
     }
     
 }
