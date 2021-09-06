@@ -273,6 +273,7 @@ class PaymentHelper
                 function () use ($payment, $orderId) {
                 //unguarded
                 $order = $this->orderRepository->findOrderById($orderId);
+                     $this->getLogger(__METHOD__)->error('order creation', $order);
                 if (! is_null($order) && $order instanceof Order)
                 {
                     $this->paymentOrderRelationRepository->createOrderRelation($payment, $order);
