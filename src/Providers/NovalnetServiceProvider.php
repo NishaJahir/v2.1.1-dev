@@ -390,8 +390,7 @@ class NovalnetServiceProvider extends ServiceProvider
             {
                 
                 if($paymentHelper->getPaymentKeyByMop($event->getMop())) {
-                    $order = $event->getOrder();
-                    $this->getLogger(__METHOD__)->error('order creation', $order);
+                   
                     $sessionStorage->getPlugin()->setValue('nnOrderNo',$event->getOrderId());
                     $sessionStorage->getPlugin()->setValue('mop',$event->getMop());
                     $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
@@ -403,7 +402,7 @@ class NovalnetServiceProvider extends ServiceProvider
                         $this->getLogger(__METHOD__)->error('called', $paymentKey);
                          $paymentService->paymentCalltoNovalnetServer();
                          $paymentService->validateResponse();
-                         $payments = $paymentRepository->getPaymentsByOrderId($order->id);
+                         $payments = $paymentRepository->getPaymentsByOrderId($event->getOrderId());
                          $this->getLogger(__METHOD__)->error('payment creation', $payments);
                     } else {
                         $paymentProcessUrl = $paymentService->getRedirectPaymentUrl();
