@@ -388,8 +388,10 @@ class NovalnetServiceProvider extends ServiceProvider
         $eventDispatcher->listen(ExecutePayment::class,
             function (ExecutePayment $event) use ($paymentHelper, $paymentService, $sessionStorage, $transactionLogData,$config,$basketRepository, $paymentRepository)
             {
-                $this->getLogger(__METHOD__)->error('order creation', $event->getOrder());
+                
                 if($paymentHelper->getPaymentKeyByMop($event->getMop())) {
+                    $order = $event->getOrder();
+                    $this->getLogger(__METHOD__)->error('order creation', $order);
                     $sessionStorage->getPlugin()->setValue('nnOrderNo',$event->getOrderId());
                     $sessionStorage->getPlugin()->setValue('mop',$event->getMop());
                     $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
@@ -401,7 +403,7 @@ class NovalnetServiceProvider extends ServiceProvider
                         $this->getLogger(__METHOD__)->error('called', $paymentKey);
                          $paymentService->paymentCalltoNovalnetServer();
                          $paymentService->validateResponse();
-                         $payments = $paymentRepository->getPaymentsByOrderId($event->getOrderId());
+                         $payments = $paymentRepository->getPaymentsByOrderId($order->id);
                          $this->getLogger(__METHOD__)->error('payment creation', $payments);
                     } else {
                         $paymentProcessUrl = $paymentService->getRedirectPaymentUrl();
