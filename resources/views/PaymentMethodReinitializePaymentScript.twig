@@ -5,8 +5,8 @@
       $.get("/payment/novalnet/payOrderNow", function(data)
       {
         console.log(orderId);
-        
-        window.location = data;
+        $('.modal').show();
+        //window.location = data;
       });
     });
   });
