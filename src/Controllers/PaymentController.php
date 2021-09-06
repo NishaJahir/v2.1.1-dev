@@ -265,9 +265,12 @@ class PaymentController extends Controller
           }
     }
     
-    public function reInit()
+    public function payOrderNow()
     {
-        $this->getLogger(__METHOD__)->error('controller reinit', $this->request->all());
+        $this->getLogger(__METHOD__)->error('controller payOrderNow', $this->request->all());
+        return $this->twig->render('Novalnet::NovalnetPaymentReint', [
+                                                               'payment' => 'Reint'
+                                   ]);
        
     }
     
