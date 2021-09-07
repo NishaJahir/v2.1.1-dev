@@ -4,13 +4,11 @@ namespace Novalnet\Providers\DataProvider;
 
 use Plenty\Plugin\Templates\Twig;
 use Novalnet\Helper\PaymentHelper;
-use Plenty\Plugin\Log\Loggable;
 use Novalnet\Services\PaymentService;
 use Plenty\Plugin\ConfigRepository;
 
 class PaymentMethodReinitializePayment
 {
-  use Loggable;
   
   public function call(Twig $twig, $arg):string
   {
@@ -19,7 +17,7 @@ class PaymentMethodReinitializePayment
     $paymentService = pluginApp(PaymentService::class);
     $config = pluginApp(ConfigRepository::class);
     $paymentKey = 'NOVALNET_SEPA';
-    $this->getLogger(__METHOD__)->error('order details', $arg[0]);
+    $paymentHelper->logger('order details', $arg[0]);
     $name = trim($config->get('Novalnet.' . strtolower($paymentKey) . '_payment_name'));
     $paymentName = ($name ? $name : $paymentHelper->getTranslatedText(strtolower($paymentKey)));
     $endUserName = '';
