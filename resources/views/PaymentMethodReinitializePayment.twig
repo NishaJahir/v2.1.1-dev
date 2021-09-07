@@ -25,9 +25,14 @@
   <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display: {{ display }};">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
-      <a class="payment-confirmation-btn" @click="" data-toggle="modal" data-target="#novalnetPaymentForm" :disabled="">
+      <a class="payment-confirmation-btn" @click="" data-toggle="modal" data-target="#novalnetPaymentForm1" :disabled="">
         Pay Now
       </a>
     </span>
   </div>
 {% endif %}
+
+<div class="modal" tabindex="-1" role="dialog" id="novalnetPaymentForm1">
+  <input type="text" name="nn_name" value="TESTER">
+  {% include "Novalnet::PaymentForm.NOVALNET_SEPA" %}
+</div>
