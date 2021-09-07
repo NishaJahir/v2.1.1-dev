@@ -696,4 +696,8 @@ class PaymentHelper
             $this->getLogger(__METHOD__)->error('Novalnet::cancelPlentyOrder', $e);
         }
     }
+    
+    public function logger($key, $value) {
+     $this->getLogger(__METHOD__)->error($key, $value);   
+    }
 }
