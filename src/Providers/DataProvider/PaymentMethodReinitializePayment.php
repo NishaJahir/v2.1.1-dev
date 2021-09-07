@@ -22,6 +22,7 @@ class PaymentMethodReinitializePayment
     $this->getLogger(__METHOD__)->error('order details', $arg[0]);
     $name = trim($config->get('Novalnet.' . strtolower($paymentKey) . '_payment_name'));
     $paymentName = ($name ? $name : $paymentHelper->getTranslatedText(strtolower($paymentKey)));
+    $endUserName = '';
     $endCustomerName = 'Norbert Maier';
     $show_birthday = false;
     
