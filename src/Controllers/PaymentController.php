@@ -237,8 +237,16 @@ class PaymentController extends Controller
             unset($serverRequestData['data']['birth_date']);
         }
         $this->getLogger(__METHOD__)->error('request params controller', $serverRequestData);
-        $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);  
-        return $this->response->redirectTo('place-order');
+        $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
+        if(!empty($requestData['reInit'])) {
+            $this->paymentService->validateResponse();
+            return $this->response->redirectTo('confirmation');
+            
+        } else {
+            return $this->response->redirectTo('place-order');
+        }
+       
+        
     }
 
     /**
