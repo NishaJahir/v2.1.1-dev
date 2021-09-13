@@ -32,7 +32,8 @@ class PaymentMethodReinitializePayment
       'paymentMopKey'     =>  $paymentKey,
       'paymentName' => $paymentName,  
        'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
-       'nnGuaranteeStatus' => $show_birthday ? $guaranteeStatus : ''  
+       'nnGuaranteeStatus' => $show_birthday ? $guaranteeStatus : '',
+      'reInit' => 1
    ]);
   }
 }
