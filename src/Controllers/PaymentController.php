@@ -160,6 +160,7 @@ class PaymentController extends Controller
         $requestData = $this->request->all();
         $notificationMessage = $this->paymentHelper->getNovalnetStatusText($requestData);
         $basket = $this->basketRepository->load();  
+        $this->getLogger(__METHOD__)->error('basket', $basket);
         $billingAddressId = $basket->customerInvoiceAddressId;
         $address = $this->addressRepository->findAddressById($billingAddressId);
         foreach ($address->options as $option) {
@@ -239,6 +240,7 @@ class PaymentController extends Controller
         $this->getLogger(__METHOD__)->error('request params controller', $serverRequestData);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
         if(!empty($requestData['reInit'])) {
+            $this->paymentService->paymentCalltoNovalnetServer();
             $this->paymentService->validateResponse();
             return $this->response->redirectTo('confirmation');
             
