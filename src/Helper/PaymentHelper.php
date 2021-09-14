@@ -700,4 +700,21 @@ class PaymentHelper
     public function logger($key, $value) {
      $this->getLogger(__METHOD__)->error($key, $value);   
     }
+    
+    public function orderObject($orderId)
+    {
+        $orderId = (int)$orderId;
+        try {
+        $authHelper = pluginApp(AuthHelper::class);
+                $order_ref = $authHelper->processUnguarded(
+                function () use ($orderId) {
+                    $order_obj = $this->orderRepository->findOrderById($orderId);                                       
+                    return $order_obj;              
+                });
+                return $order_ref;
+        } catch ( \Exception $e ) {
+               return null;                     
+        }
+
+    }
 }
