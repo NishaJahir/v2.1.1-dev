@@ -237,6 +237,10 @@ class PaymentController extends Controller
         if (!empty ($address->companyName) ) {
             unset($serverRequestData['data']['birth_date']);
         }
+       
+        
+        $orderOb =  $this->paymentHelper->orderObject($requestData['orderId']);
+        $serverRequestData['data']['amount'] = $this->paymentHelper->ConvertAmountToSmallerUnit($orderOb->amounts[0]->invoiceTotal);
         $this->getLogger(__METHOD__)->error('request params controller', $serverRequestData);
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
         if(!empty($requestData['reInit'])) {
