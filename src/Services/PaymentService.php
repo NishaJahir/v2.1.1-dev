@@ -210,7 +210,7 @@ class PaymentService
                 }
             } else {
 		   if(!empty($requestData['order_no'])) {
-                //$this->paymentHelper->cancelPlentyOrder($requestData['order_no']);
+                
 		   }
 		        $requestData['type'] = 'cancel';
                 $requestData['paid_amount'] = '0';
