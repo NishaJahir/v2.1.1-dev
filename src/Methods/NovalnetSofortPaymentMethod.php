@@ -148,7 +148,7 @@ class NovalnetSofortPaymentMethod extends PaymentMethodService
      */
     public function isSwitchableTo(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -158,6 +158,6 @@ class NovalnetSofortPaymentMethod extends PaymentMethodService
      */
     public function isSwitchableFrom(): bool
     {
-        return false;
+        return true;
     }
 }
