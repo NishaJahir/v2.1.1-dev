@@ -33,7 +33,7 @@
 {% endif %}
 
 
-<div class="modal" tabindex="-1" role="dialog" id="novalnetPaymentForm1" style="display: block;">
+<div class="modal" tabindex="-1" role="dialog" id="novalnetPaymentForm1">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       
@@ -41,3 +41,11 @@
     </div>
   </div>
 </div>
+
+<script>
+  jQuery('document').ready(function() {
+   jQuery('.payment-confirmation-btn').click(function() {
+     jQuery('#novalnetPaymentForm1').show();
+   });
+  });
+</script>
