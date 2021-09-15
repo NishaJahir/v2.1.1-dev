@@ -148,6 +148,7 @@ class PaymentController extends Controller
         if(empty($transactionDetails[0]->tid)) {         
             $this->paymentService->validateResponse();
         }
+        $this->sessionStorage->getPlugin()->setValue('nnOrderNo', $responseData['order_no']);
         return $this->response->redirectTo('confirmation');
     }
 
