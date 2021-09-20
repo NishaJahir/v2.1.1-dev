@@ -45,12 +45,17 @@ class PaymentMethodReinitializePayment
     $paymentHelper->logger('key12345', $paymentKey);
     $paymentHelper->logger('req12345', $serverRequestData);
     
-       $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
+      
        $sessionStorage->getPlugin()->setValue('nnReinit',1);
        $sessionStorage->getPlugin()->setValue('nnOrderNo',$order['id']);
        $sessionStorage->getPlugin()->setValue('mop',$mopId);
        $sessionStorage->getPlugin()->setValue('paymentKey',$paymentKey);
-       
+      
+    if ($paymentKey == 'NOVALNET_SOFORT') {
+       $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+    } else {
+        $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
+    }
     
     return $twig->render('Novalnet::PaymentMethodReinitializePayment', [
       "order" => $arg[0], 
