@@ -57,7 +57,7 @@ class PaymentMethodReinitializePayment
       'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
       'paymentMopKey'     =>  $paymentKey,
       'paymentName' => $paymentName,
-      'redirectUrl' => $paymentService->getRedirectPaymentUrl();
+      'redirectUrl' => $paymentService->getRedirectPaymentUrl(),
        'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
        'nnGuaranteeStatus' => $show_birthday ? $guaranteeStatus : '',
       'reInit' => 1
