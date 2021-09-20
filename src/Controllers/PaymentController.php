@@ -268,7 +268,8 @@ class PaymentController extends Controller
         $paymentUrl = $this->sessionStorage->getPlugin()->getValue('nnPaymentUrl');
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', null);
         $this->sessionStorage->getPlugin()->setValue('nnOrderNo', null);
-
+         
+        $this->getLogger(__METHOD__)->error('controller request',  $paymentRequestData);
         if(!empty($paymentRequestData['order_no'])) {
             $this->sessionStorage->getPlugin()->setValue('nnPaymentDataUpdated', $paymentRequestData);  
             return $this->twig->render('Novalnet::NovalnetPaymentRedirectForm', [
@@ -282,8 +283,6 @@ class PaymentController extends Controller
     
     public function payOrderNow()
     {
-        $this->getLogger(__METHOD__)->error('controller payOrderNow', $this->request->all());
-      
         
     }
     
