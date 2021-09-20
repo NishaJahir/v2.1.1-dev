@@ -11,6 +11,6 @@ class PaymentMethodReinitializePaymentScript
   {
     $paymentHelper = pluginApp(PaymentHelper::class);
     
-    return $twig->render('Novalnet::PaymentMethodReinitializePaymentScript', ["order" => $arg[0], 'mopIds' => ['paymentMethodId' => 6008]]);
+    return $twig->render('Novalnet::PaymentMethodReinitializePaymentScript', ["order" => $arg[0], 'mopIds' => ['paymentMethodId' => 6003]]);
   }
 }
