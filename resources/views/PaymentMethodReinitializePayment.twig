@@ -22,11 +22,11 @@
     Pay Now
   </button>
 {% elseif services.template.isCurrentTemplate('tpl.confirmation') %}
-  <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:block;">
+  <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:none;">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
       <input type="hidden" name="nn_redirect_url" id="nn_redirect_url" value="{{redirectUrl}}">
-      <a class="payment-confirmation-btn" @click=""  :disabled>
+      <a class="payment-confirmation-btn">
         Pay Now
       </a>
     </span>
@@ -34,11 +34,4 @@
 {% endif %}
 
 
-<script>
-jQuery('document').ready(function() {
-   jQuery('.payment-confirmation-btn').click(function() {
-     window.location.href = jQuery('#nn_redirect_url').val();
-   });
-  });
 
-</script>
