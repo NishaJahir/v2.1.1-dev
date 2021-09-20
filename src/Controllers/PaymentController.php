@@ -268,6 +268,7 @@ class PaymentController extends Controller
              $paymentKey = $this->sessionStorage->getPlugin()->getValue('paymentKey');
              $this->getLogger(__METHOD__)->error('key controller', $paymentKey);
              $paymentRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $paymentKey);
+             $paymentRequestData = $paymentRequestData['data'];
             $this->getLogger(__METHOD__)->error('key req', $paymentRequestData);
              $paymentUrl = $paymentRequestData['url'];
         } else {
