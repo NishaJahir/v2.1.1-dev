@@ -42,11 +42,14 @@ class PaymentMethodReinitializePayment
     $paymentKey = $paymentHelper->getPaymentKeyByMop($mopId);
     $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
        
+    $paymentHelper->logger('key12345', $paymentKey);
+    $paymentHelper->logger('req12345', $serverRequestData);
+    
        $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
        $sessionStorage->getPlugin()->setValue('nnOrderNo',$order['id']);
        $sessionStorage->getPlugin()->setValue('mop',$mopId);
        $sessionStorage->getPlugin()->setValue('paymentKey',$paymentKey);
-    
+       
     if ($paymentKey == 'NOVALNET_SOFORT') {
        $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
        $sessionStorage->getPlugin()->setValue('nnPaymentUrl', $serverRequestData['url']);
