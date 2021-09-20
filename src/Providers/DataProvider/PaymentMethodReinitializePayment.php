@@ -7,6 +7,7 @@ use Novalnet\Helper\PaymentHelper;
 use Novalnet\Services\PaymentService;
 use Plenty\Plugin\ConfigRepository;
 use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
+use Plenty\Modules\Frontend\Session\Storage\Contracts\FrontendSessionStorageFactoryContract;
 
 class PaymentMethodReinitializePayment
 {
@@ -17,6 +18,7 @@ class PaymentMethodReinitializePayment
     /** @var PaymentHelper $paymentHelper */
     $paymentHelper = pluginApp(PaymentHelper::class);
     $paymentService = pluginApp(PaymentService::class);
+    $sessionStorage = pluginApp(FrontendSessionStorageFactoryContract::class);
     $config = pluginApp(ConfigRepository::class);
     $basketRepository = pluginApp(BasketRepositoryContract::class);
     $paymentKey = 'NOVALNET_SEPA';
