@@ -262,9 +262,9 @@ class PaymentController extends Controller
      */
     public function redirectPayment()
     {
-        $requestData = $this->request->all();
-        $this->getLogger(__METHOD__)->error('redirectPayment', $requestData);
-        if(!empty($requestData['nn_reinit'])) {
+        $nnReinitPayment = $this->sessionStorage->getPlugin()->getValue('nnReinit');
+        $this->getLogger(__METHOD__)->error('nnReinitPayment', $nnReinitPayment);
+        if(!empty($nnReinitPayment)) {
              $paymentKey = $this->sessionStorage->getPlugin()->getValue('paymentKey');
              $paymentRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $paymentKey);
              $paymentUrl = $paymentRequestData['url'];
