@@ -41,7 +41,7 @@ class PaymentMethodReinitializePayment
     }
     
     $paymentKey = $paymentHelper->getPaymentKeyByMop($mopId);
-    $orderAmount = (int) $order['amounts'][0]['invoiceTotal'] * 100;
+    $orderAmount = $this->paymentHelper->ConvertAmountToSmallerUnit($order['amounts'][0]['invoiceTotal']);
     $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey, false, $orderAmount);
        
     $paymentHelper->logger('order amount', $orderAmount);
