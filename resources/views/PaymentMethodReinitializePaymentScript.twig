@@ -13,11 +13,13 @@ $(function () {
       if(e.detail.newOrder.order.properties[property].typeId === 3){
         if (e.detail.newOrder.order.properties[property].value == 6003) {
           //document.getElementById("reinitPaymentMethod-" + e.detail.oldOrder.id).style.display = "block";
+          setTimeout(function(){  
           $.get("/payment/novalnet/payOrderNow/", function(data)
           {
             console.log('çalled the payment process');
             window.location = data;
           });
+          }, 3000);
         } else {
           document.getElementById("reinitPaymentMethod-" + e.detail.oldOrder.id).style.display = "none";
         }
