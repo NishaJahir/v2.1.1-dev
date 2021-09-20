@@ -263,10 +263,11 @@ class PaymentService
      * @param Basket $basket
      * @param PaymentKey $paymentKey
      * @param bool $doRedirect
+     * @param int $orderAmount
      *
      * @return array
      */
-    public function getRequestParameters(Basket $basket, $paymentKey = '', $doRedirect = false)
+    public function getRequestParameters(Basket $basket, $paymentKey = '', $doRedirect = false, $orderAmount= 0)
     {
         
      /** @var \Plenty\Modules\Frontend\Services\VatService $vatService */
@@ -309,7 +310,7 @@ class PaymentService
             'zip'                => $address->postalCode,
             'customer_no'        => ($customerId) ? $customerId : 'guest',
             'lang'               => strtoupper($this->sessionStorage->getLocaleSettings()->language),
-            'amount'             => $this->paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount),
+            'amount'             => !empty($basket->basketAmount) ? $this->paymentHelper->ConvertAmountToSmallerUnit($basket->basketAmount) : $orderAmount,
             'currency'           => $basket->currency,
             'remote_ip'          => $this->paymentHelper->getRemoteAddress(),
             'system_ip'          => $this->paymentHelper->getServerAddress(),
