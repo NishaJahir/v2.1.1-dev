@@ -339,7 +339,7 @@ class PaymentService
         if(!empty($address->phone)) {
             $paymentRequestData['tel'] = $address->phone;
         }
-
+        $this->getLogger(__METHOD__)->error('req', $paymentRequestData);
         $url = $this->getPaymentData($paymentKey, $paymentRequestData, $doRedirect);
         return [
             'data' => $paymentRequestData,
