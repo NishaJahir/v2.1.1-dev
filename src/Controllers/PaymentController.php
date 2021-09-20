@@ -266,7 +266,9 @@ class PaymentController extends Controller
         $this->getLogger(__METHOD__)->error('nnReinitPayment', $nnReinitPayment);
         if(!empty($nnReinitPayment)) {
              $paymentKey = $this->sessionStorage->getPlugin()->getValue('paymentKey');
+             $this->getLogger(__METHOD__)->error('key controller', $paymentKey);
              $paymentRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $paymentKey);
+            $this->getLogger(__METHOD__)->error('key req', $paymentRequestData);
              $paymentUrl = $paymentRequestData['url'];
         } else {
             $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
