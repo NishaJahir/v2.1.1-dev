@@ -262,27 +262,14 @@ class PaymentController extends Controller
      */
     public function redirectPayment()
     {
-        $nnReinitPayment = $this->sessionStorage->getPlugin()->getValue('nnReinit');
-        
-        if(!empty($nnReinitPayment)) {
-             $paymentKey = $this->sessionStorage->getPlugin()->getValue('paymentKey');
-            
-             $paymentRequestData = $this->paymentService->getRequestParameters($this->basketRepository->load(), $paymentKey);
-             $paymentRequestData = $paymentRequestData['data'];
-            
-             $paymentUrl = $paymentRequestData['url'];
-        } else {
-            $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
-            $paymentUrl = $this->sessionStorage->getPlugin()->getValue('nnPaymentUrl');
-        }
+        $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
         $orderNo = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
         $paymentRequestData['order_no'] = $orderNo;
+        $paymentUrl = $this->sessionStorage->getPlugin()->getValue('nnPaymentUrl');
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', null);
         $this->sessionStorage->getPlugin()->setValue('nnOrderNo', null);
-         
-       
+
         if(!empty($paymentRequestData['order_no'])) {
-             $this->getLogger(__METHOD__)->error('redirectPayment request inside',  $paymentRequestData);
             $this->sessionStorage->getPlugin()->setValue('nnPaymentDataUpdated', $paymentRequestData);  
             return $this->twig->render('Novalnet::NovalnetPaymentRedirectForm', [
                                                                'formData'     => $paymentRequestData,
@@ -290,7 +277,7 @@ class PaymentController extends Controller
                                    ]);
         } else {            
             return $this->response->redirectTo('confirmation');
-       }
+          }
     }
     
     public function payOrderNow()
