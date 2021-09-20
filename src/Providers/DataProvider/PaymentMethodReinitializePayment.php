@@ -61,7 +61,7 @@ class PaymentMethodReinitializePayment
     
     return $twig->render('Novalnet::PaymentMethodReinitializePayment', [
       "order" => $arg[0], 
-      "paymentMethodId" => 6008,
+      "paymentMethodId" => 6003,
       'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
       'paymentMopKey'     =>  $paymentKey,
       'paymentName' => $paymentName,
