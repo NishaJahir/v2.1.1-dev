@@ -145,9 +145,9 @@ class PaymentController extends Controller
         $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentDataUpdated');
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', array_merge($paymentRequestData, $responseData));
         $transactionDetails = $this->transaction->getTransactionData('orderNo', $responseData['order_no']);
-        if(empty($transactionDetails[0]->tid)) {         
+        //if(empty($transactionDetails[0]->tid)) {         
             $this->paymentService->validateResponse();
-        }
+        //}
         $this->sessionStorage->getPlugin()->setValue('nnOrderNo', $responseData['order_no']);
         return $this->response->redirectTo('confirmation');
     }
@@ -283,10 +283,21 @@ class PaymentController extends Controller
     public function payOrderNow()
     {
         $this->getLogger(__METHOD__)->error('controller payOrderNow', $this->request->all());
-        return $this->twig->render('Novalnet::NovalnetPaymentReint', [
-                                                               'payment' => 'Reint'
-                                   ]);
        
+        $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
+        $orderNo = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
+        $paymentRequestData['order_no'] = $orderNo;
+        $paymentUrl = $this->sessionStorage->getPlugin()->getValue($paymentRequestData['url']);
+        $this->getLogger(__METHOD__)->error('controller redirect',$paymentRequestData);
+
+       
+            $this->sessionStorage->getPlugin()->setValue('nnPaymentDataUpdated', $paymentRequestData);  
+            return $this->twig->render('Novalnet::NovalnetPaymentRedirectForm', [
+                                                               'formData'     => $paymentRequestData,
+                                                                'nnPaymentUrl' => $paymentUrl
+                                   ]);
+      
+        
     }
     
 }
