@@ -2,10 +2,9 @@
  $(function () {
     $("[id^='reinitPaymentMethod-']").click(function () {
       var orderId = $(this).attr('id').split('-')[1];
-      $.get("/payment/novalnet/payOrderNow/", function(data)
-      {
-        window.location = data;
-      });
+      
+        window.location.href = "/payment/novalnet/redirectPayment/";
+      
     });
   });
 
