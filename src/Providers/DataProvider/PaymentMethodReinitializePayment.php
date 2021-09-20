@@ -47,12 +47,17 @@ class PaymentMethodReinitializePayment
        $sessionStorage->getPlugin()->setValue('mop',$mopId);
        $sessionStorage->getPlugin()->setValue('paymentKey',$paymentKey);
     
+    if ($paymentKey == 'NOVALNET_SOFORT') {
+       $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData['data']);
+       $sessionStorage->getPlugin()->setValue('nnPaymentUrl', $serverRequestData['url']);
+    }
     return $twig->render('Novalnet::PaymentMethodReinitializePayment', [
       "order" => $arg[0], 
       "paymentMethodId" => 6008,
       'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
       'paymentMopKey'     =>  $paymentKey,
-      'paymentName' => $paymentName,  
+      'paymentName' => $paymentName,
+      'redirectUrl' => $paymentService->getRedirectPaymentUrl();
        'endcustomername'=> empty(trim($endUserName)) ? $endCustomerName : $endUserName,
        'nnGuaranteeStatus' => $show_birthday ? $guaranteeStatus : '',
       'reInit' => 1
