@@ -22,7 +22,7 @@
     Pay Now
   </button>
 {% elseif services.template.isCurrentTemplate('tpl.confirmation') %}
-  <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:none;">
+  <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:{{display}};">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
       <input type="hidden" name="nn_redirect_url" id="nn_redirect_url" value="{{redirectUrl}}">
