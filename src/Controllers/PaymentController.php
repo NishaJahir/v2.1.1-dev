@@ -283,7 +283,7 @@ class PaymentController extends Controller
     
     public function payOrderNow()
     {
-        
+        return $this->response->redirectTo('execute-payment');
     }
     
 }
