@@ -6,16 +6,19 @@ use Plenty\Plugin\Templates\Twig;
 use Novalnet\Helper\PaymentHelper;
 use Novalnet\Services\PaymentService;
 use Plenty\Plugin\ConfigRepository;
+use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
 
 class PaymentMethodReinitializePayment
 {
   
   public function call(Twig $twig, $arg):string
   {
+    $order = $arg[0];
     /** @var PaymentHelper $paymentHelper */
     $paymentHelper = pluginApp(PaymentHelper::class);
     $paymentService = pluginApp(PaymentService::class);
     $config = pluginApp(ConfigRepository::class);
+    $basketRepository = pluginApp(BasketRepositoryContract::class);
     $paymentKey = 'NOVALNET_SEPA';
     $paymentHelper->logger('order details', $arg[0]);
     $name = trim($config->get('Novalnet.' . strtolower($paymentKey) . '_payment_name'));
@@ -24,10 +27,27 @@ class PaymentMethodReinitializePayment
     $endCustomerName = 'Norbert Maier';
     $show_birthday = false;
     
+    foreach($order['properties'] as $property) {
+        if($property['typeId'] == 3)
+        {
+            $mopId = $property['value'];
+        }
+        if($property['typeId'] == 4)
+        {
+            $paidStatus = $property['value'];
+        }
+    }
+    $paymentKey = $paymentHelper->getPaymentKeyByMop($mopId);
+    $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
+       
+       $sessionStorage->getPlugin()->setValue('nnPaymentData', $serverRequestData);
+       $sessionStorage->getPlugin()->setValue('nnOrderNo',$order['id']);
+       $sessionStorage->getPlugin()->setValue('mop',$mopId);
+       $sessionStorage->getPlugin()->setValue('paymentKey',$paymentKey);
     
     return $twig->render('Novalnet::PaymentMethodReinitializePayment', [
       "order" => $arg[0], 
-      "paymentMethodId" => 6002,
+      "paymentMethodId" => 6010,
       'nnPaymentProcessUrl' => $paymentService->getProcessPaymentUrl(),
       'paymentMopKey'     =>  $paymentKey,
       'paymentName' => $paymentName,  
