@@ -42,7 +42,7 @@ class PaymentMethodReinitializePayment
     
     $paymentKey = $paymentHelper->getPaymentKeyByMop($mopId);
     $orderAmount = (int) $order['amounts'][0]['invoiceTotal'] * 100;
-    $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey, $orderAmount);
+    $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey, false, $orderAmount);
        
     $paymentHelper->logger('order amount', $orderAmount);
     $paymentHelper->logger('req12345', $serverRequestData);
