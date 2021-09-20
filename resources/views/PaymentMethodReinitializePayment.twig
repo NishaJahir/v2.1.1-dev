@@ -25,6 +25,7 @@
   <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:block;">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
+      <input type="hidden" name="nn_reinit" id="nn_reinit" value="1">
       <input type="hidden" name="nn_redirect_url" id="nn_redirect_url" value="{{redirectUrl}}">
       <a class="payment-confirmation-btn" @click=""  :disabled>
         Pay Now
