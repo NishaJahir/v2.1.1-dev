@@ -25,10 +25,16 @@
   <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:{{display}};">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
+     {% if paymentMopKey == 'NOVALNET_SOFORT' %}
       <input type="hidden" name="nn_redirect_url" id="nn_redirect_url" value="{{redirectUrl}}">
       <a class="payment-confirmation-btn">
         Pay Now
       </a>
+      {% else %}
+      <a class="payment-confirmation-btn-direct">
+        Pay Now
+      </a>
+      {% endif %}
     </span>
   </div>
 {% endif %}
@@ -39,5 +45,6 @@ jQuery('document').ready(function() {
 jQuery('.payment-confirmation-btn').click(function() {
   window.location.href = jQuery('#nn_redirect_url').val();
 });
+
 });
 </script>
