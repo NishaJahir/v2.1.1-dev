@@ -39,8 +39,10 @@ class PaymentMethodReinitializePayment
             $paidStatus = $property['value'];
         }
     }
+    
     $paymentKey = $paymentHelper->getPaymentKeyByMop($mopId);
-    $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey);
+    $orderAmount = (int) $order->amounts[0]->invoiceTotal * 100;
+    $serverRequestData = $paymentService->getRequestParameters($basketRepository->load(), $paymentKey, $orderAmount);
        
     $paymentHelper->logger('key12345', $paymentKey);
     $paymentHelper->logger('req12345', $serverRequestData);
