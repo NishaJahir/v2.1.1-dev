@@ -25,6 +25,7 @@
   <div id="reinitPaymentMethod-{{order.id}}" class="row con-reinit" style="display:block;">
     <strong class="col-xs-6 col-sm-5"></strong>
     <span class="col-xs-6 col-sm-7">
+      <input type="hidden" name="nn_redirect_url" id="nn_redirect_url" value="{{redirectUrl}}">
       <a class="payment-confirmation-btn" @click=""  :disabled>
         Pay Now
       </a>
@@ -42,3 +43,11 @@
   </div>
 </div>
 
+
+<script>
+  jQuery('document').ready(function() {
+   jQuery('.payment-confirmation-btn').click(function() {
+     window.location.href = jQuery('#nn_redirect_url').val();
+   });
+  });
+</script>
